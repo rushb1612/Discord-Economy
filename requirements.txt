@@ -1,0 +1,27 @@
+discord.py
+    ```
+3.  **Start Command:** The platform needs to know how to start your bot. You may need a `Procfile` (especially for older systems) or define a `Start Command` in the platform's settings:
+    ```bash
+    python main.py
+    ```
+4.  **Environment Variables:** **Crucially**, do not hardcode your `BOT_TOKEN` in `main.py`. Instead, set it as a **Secret Variable** (e.g., `BOT_TOKEN`) in the PaaS settings. You would update your Python code to read this variable:
+    ```python
+    import os
+    BOT_TOKEN = os.environ.get('BOT_TOKEN') # Read from environment variable
+    # ... then client.run(BOT_TOKEN)
+    ```
+5.  **Deploy:** Connect the platform to your GitHub repository and initiate the deployment. The platform handles installation and launching.
+
+---
+
+## 3. Dedicated Bot Hosting (Legacy/Simplified)
+
+There are services dedicated specifically to Discord bot hosting (e.g., Pterodactyl panels, specialized services). While easy, they often offer less transparency and control than a dedicated VPS. This method is generally recommended only for very small, simple, or hobby-level bots where maximum uptime isn't critical.
+
+---
+
+## Security and Best Practices (Mandatory)
+
+1.  **Token Security:** **NEVER** push your `BOT_TOKEN` to a public GitHub repository. Use environment variables (secrets/config variables) in your hosting environment, as detailed in the PaaS section.
+2.  **Dependencies:** Always use a `requirements.txt` file to manage and automatically install your dependencies (like `discord.py`) upon deployment.
+3.  **Process Manager:** On a VPS, always use `screen` or `tmux` to ensure the Python process remains running even after you log out of the server.
